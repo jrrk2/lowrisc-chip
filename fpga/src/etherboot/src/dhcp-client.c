@@ -520,22 +520,6 @@ int dhcp_main(u_int8_t mac[6])
     return result;
 }
 
-#ifdef STANDALONE
-unsigned short csum(uint8_t *buf, int nbytes)
-    {       //
-            unsigned long sum;
-            for(sum=0; nbytes>0; nbytes-=2)
-              {
-                unsigned short src;
-                memcpy(&src, buf, 2);
-                buf+=2;
-                sum += ntohs(src);
-              }
-            sum = (sum >> 16) + (sum & 0xffff);
-            sum += (sum >> 16);
-            return (unsigned short)(~sum);
-    }
-#endif
 void PrintData (const u_char * data , int Size)
 {
     int i , j;
@@ -576,15 +560,3 @@ void PrintData (const u_char * data , int Size)
         }
     }
 }
-
-#ifdef STANDALONE
-void process_udp_packet(const u_char *data, int ulen, uint16_t peer_port, uint32_t peer_ip, const u_char *peer_addr)
-{
-  uint16_t idx;	
-  static uint16_t maxidx;
-  uint32_t srcaddr;
-  memcpy(&srcaddr, &uip_hostaddr, 4);
-  printf("UDP packet length %d sent to port %d\n", ulen, peer_port);
-  PrintData(data, ulen);
-}
-#endif

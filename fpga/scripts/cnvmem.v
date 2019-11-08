@@ -25,8 +25,11 @@ module cnvmem;
         last = (i+16);
         if (last < first + 'H8000)
              last = first + 'H8000;
-        else if (last < first + 'H10000)
-             last = first + 'H10000;
+        else
+          begin
+             $fdisplay(stderr, "Too many words");
+             last = first + 'H8000;
+          end;
         for (i = i+1; i < last; i=i+1)
           mem[i] = 0;
         $display("First = %X, Last = %X", first, last-1);
