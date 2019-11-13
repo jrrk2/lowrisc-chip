@@ -3,32 +3,32 @@
 #include <stdint.h>
 #include "ariane.h"
 
-#define UART_BASE UARTBase
+#define UART_RBR(ch) uart_base[ch] + 0
+#define UART_THR(ch) uart_base[ch] + 0
+#define UART_INTERRUPT_ENABLE(ch) uart_base[ch] + 4
+#define UART_INTERRUPT_IDENT(ch) uart_base[ch] + 8
+#define UART_FIFO_CONTROL(ch) uart_base[ch] + 8
+#define UART_LINE_CONTROL(ch) uart_base[ch] + 12
+#define UART_MODEM_CONTROL(ch) uart_base[ch] + 16
+#define UART_LINE_STATUS(ch) uart_base[ch] + 20
+#define UART_MODEM_STATUS(ch) uart_base[ch] + 24
+#define UART_DLAB_LSB(ch) uart_base[ch] + 0
+#define UART_DLAB_MSB(ch) uart_base[ch] + 4
 
-#define UART_RBR UART_BASE + 0
-#define UART_THR UART_BASE + 0
-#define UART_INTERRUPT_ENABLE UART_BASE + 4
-#define UART_INTERRUPT_IDENT UART_BASE + 8
-#define UART_FIFO_CONTROL UART_BASE + 8
-#define UART_LINE_CONTROL UART_BASE + 12
-#define UART_MODEM_CONTROL UART_BASE + 16
-#define UART_LINE_STATUS UART_BASE + 20
-#define UART_MODEM_STATUS UART_BASE + 24
-#define UART_DLAB_LSB UART_BASE + 0
-#define UART_DLAB_MSB UART_BASE + 4
+void init_uart(int ch, uint16_t baud);
 
-void init_uart();
+void print_uart(int ch, const char* str);
 
-void print_uart(const char* str);
+void print_uart_short(int ch, uint16_t addr);
 
-void print_uart_short(uint16_t addr);
+void print_uart_int(int ch, uint32_t addr);
 
-void print_uart_int(uint32_t addr);
+void print_uart_addr(int ch, uint64_t addr);
 
-void print_uart_addr(uint64_t addr);
+void print_uart_byte(int ch, uint8_t byte);
 
-void print_uart_byte(uint8_t byte);
+void write_serial(int ch, char a);
 
-void write_serial(char a);
+uint8_t read_line_status(int ch);
 
-void puthex(uint64_t n, int w);
+int is_transmit_empty(int ch);

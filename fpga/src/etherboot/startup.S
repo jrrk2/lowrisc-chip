@@ -44,6 +44,7 @@ _clr:
         
   la a5, trap_entry
   csrw mtvec, a5  
+  wfi     
   call main
 trap_entry:
   csrr t0, mcause
@@ -51,10 +52,3 @@ trap_entry:
 1:      
   wfi
   j 1b
-hello:
-  .ascii "Hello from lowRISC! Please wait a moment...\n\000"
-relocmsg:
-  .ascii "Relocating to DDR memory\n\000"
-skiprelocmsg:
-  .ascii "Skip relocating to DDR memory\n\000"
-

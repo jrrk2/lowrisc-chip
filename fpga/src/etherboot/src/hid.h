@@ -44,6 +44,7 @@ extern volatile uint64_t *const bt_base;
 
 extern void hid_init(uint32_t);
 extern void hid_send(uint8_t);
+extern void puthex(uint64_t n, int w);
 extern void hid_send_irq(uint8_t);
 extern void hid_send_string(const char *str);
 extern void hid_send_buf(const char *buf, const int32_t len);

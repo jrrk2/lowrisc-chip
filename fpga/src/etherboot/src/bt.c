@@ -1,33 +1,28 @@
 #include <stdio.h>
 #include "ariane.h"
-#include "hid.h"
+#include "uart.h"
 
-static uint64_t old_status1, old_status2, old_status3;
+static uint64_t old_status1, old_status3;
 
 void bt_main(int sw)
 {
   int i, j;
+  init_uart(1, 326); /* 9600 baud, 0.2% error */
   old_status1 = -1;
-  old_status2 = -1;
-  bt_base[0x800 + 0x400] = 2;
-  for (i = 1000000; i--; )
-    old_status3 += i;
-  bt_base[0x800 + 0x400] = 1302;
+  
   for (i = 0; i < 3; i++)
     {
       for (j = 1000000; j--; )
         old_status3 += j;
-      bt_base[0x800 + 0] = '$';
+      write_serial(1, '$');
     }
   while (1)
     {
-      uint64_t status1 = bt_base[0];
-      uint64_t status2 = bt_base[0x400];
-      if ((status1 != old_status1) ||(status2 != old_status2))
+      uint64_t status1 = read_line_status(1);
+      if (status1 != old_status1)
         {
-          printf("Status1 = %lX, Status2 = %lX\n", status1, status2);
+          printf("Status1 = %lX\n", status1);
           old_status1 = status1;
-          old_status2 = status2;
         }
     }
 }

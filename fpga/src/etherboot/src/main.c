@@ -156,8 +156,11 @@ int main()
   uint32_t i, rnd;
   uint32_t sw = gpio_sw();
   uint32_t sw2 = gpio_sw();
-  init_uart();
-  print_uart("Hello World!\r\n");
+  init_uart(1, 326); /* 9600 baud, 0.2% error */
+  while(1) write_serial(1, '$');
+  
+  init_uart(0, 0x001B);
+  print_uart(0, "Hello World!\r\n");
   hid_init(sw);
   for (i = 0; i < 5; i++)
     {
@@ -194,5 +197,5 @@ int main()
 
 void handle_trap(void)
 {
-    print_uart("trap\r\n");
+  print_uart(0, "trap\r\n");
 }
